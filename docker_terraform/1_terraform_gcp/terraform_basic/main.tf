@@ -10,21 +10,12 @@ terraform {
 provider "google" {
   project = "terraform-basics-458014"
   region  = "europe-west1"
-}
+} 
 
 resource "google_storage_bucket" "demo-bucket" {
   name          = "terraform-basics-458014-terra-bucket"
   location      = "EU"
   force_destroy = true
-
-  lifecycle_rule {
-    condition {
-      age = 3
-    }
-    action {
-      type = "Delete"
-    }
-  }
 
   lifecycle_rule {
     condition {
