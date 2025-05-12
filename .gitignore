@@ -1,6 +1,7 @@
 .ipynb_checkpoints/
 ny_taxi_postgres_data/
 *.csv
+!taxi_zone_lookup.csv
 *.parquet
 keys/
 *.json
