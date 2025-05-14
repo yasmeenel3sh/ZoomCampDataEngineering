@@ -45,3 +45,4 @@ terraform.rc
 
 # parquet partitions
 fhvhv/
+data/
