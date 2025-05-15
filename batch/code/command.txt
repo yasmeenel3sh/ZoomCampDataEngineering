@@ -1,0 +1,43 @@
+python 09_standalone_to_script.py \
+       --input_green=data/pq/green/2020/*/ \
+       --input_yellow=data/pq/yellow/2020/*/ \
+       --output=data/report-2020
+
+spark-submit \
+  --master="spark://de-zoom-camp.europe-west1-b.c.terraform-basics-458014.internal:7077" \
+  09_standalone_to_script.py \
+          --input_green=data/pq/green/2021/*/ \
+          --input_yellow=data/pq/yellow/2021/*/ \
+          --output=data/report-2021 
+
+arguments for google cloud storage
+
+          --input_green=gs://terraform-basics-458014-kestra-bucket/pq/green/2021/*/ \
+          --input_yellow=gs://terraform-basics-458014-kestra-bucket/pq/yellow/2021/*/ \
+          --output=gs://terraform-basics-458014-kestra-bucket/report-2021 
+
+
+
+gcloud dataproc jobs submit pyspark \
+    --properties=spark.driver.memory=4g,spark.executor.memory=4g \
+    --cluster=de-zoomcamp-cluster \
+    --region=europe-west2 \
+    gs://terraform-basics-458014-kestra-bucket/code/09_standalone_to_script.py \
+    -- \
+        --input_green=gs://terraform-basics-458014-kestra-bucket/pq/green/2020/*/ \
+        --input_yellow=gs://terraform-basics-458014-kestra-bucket/pq/yellow/2020/*/ \
+        --output=gs://terraform-basics-458014-kestra-bucket/report-2020
+
+
+
+
+
+gcloud dataproc jobs submit pyspark \
+    --properties=spark.driver.memory=4g,spark.executor.memory=4g \
+    --cluster=de-zoomcamp-cluster \
+    --region=europe-west2 \
+    gs://terraform-basics-458014-kestra-bucket/code/10_gcSpark_bigQuery.py \
+    -- \
+        --input_green=gs://terraform-basics-458014-kestra-bucket/pq/green/2020/*/ \
+        --input_yellow=gs://terraform-basics-458014-kestra-bucket/pq/yellow/2020/*/ \
+        --output=trips_data_all.reports-2020
